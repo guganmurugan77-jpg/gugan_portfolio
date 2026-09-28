@@ -181,9 +181,9 @@
           printOutput(`
 <div class="text-gray-300 space-y-1">
   <div><span class="text-cyan-400">Email:</span> <a href="mailto:guganmurugan77@gmail.com" class="text-emerald-400 hover:underline">guganmurugan77@gmail.com</a></div>
-  <div><span class="text-cyan-400">Phone:</span> <a href="tel:+918610228091" class="text-emerald-400 hover:underline">+91 8610228091</a></div>
   <div><span class="text-cyan-400">Location:</span> Chennai, Tamil Nadu, India</div>
   <div><span class="text-cyan-400">LinkedIn:</span> <a href="https://www.linkedin.com/in/gugan-murugan-727658337" target="_blank" class="text-emerald-400 hover:underline">linkedin.com/in/gugan-murugan-727658337</a></div>
+  <div><span class="text-cyan-400">GitHub:</span> <a href="https://github.com/guganmurugan77-jpg" target="_blank" class="text-emerald-400 hover:underline">github.com/guganmurugan77-jpg</a></div>
 </div>`);
           break;
 

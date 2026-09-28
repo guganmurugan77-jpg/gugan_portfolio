@@ -1,80 +1,54 @@
-# Gugan M — Cyber Security & Ethical Hacking Specialist Portfolio
-### Design Concept: "AntiGravity Cyber-Obsidian"
+# Gugan M — Cybersecurity Portfolio
 
-A high-performance, Awwwards-level interactive portfolio engineering project built for **Gugan M**, Cyber Security Architect &amp; Penetration Tester based in Chennai, India.
+Welcome to my personal cybersecurity and penetration testing portfolio website. 
 
----
-
-## 💎 Design System & Aesthetic Spec
-* **Theme Palette**: Deep Obsidian (`#0B0C10`, `#12141D`) with high-contrast Emerald glow accents (`#00FF66`), Deep Cyan line grids (`#0A2540`, `#00E5FF`), and crisp Ice-White typography (`#F0F4F8`).
-* **Atmospheric Physics**:
-  * Elastic spatial grid warp on cursor movement with dynamic spring physics.
-  * Floating upward cyber particles and hexadecimal memory glyphs.
-  * Micro-vignette with subtle CRT scanlines.
-  * Ambient blurred light orbs tracking viewport dynamics.
-* **Typography**:
-  * **Headlines / Display**: `Syne` (700/800 Bold) for striking structural titles.
-  * **Body / UI**: `Plus Jakarta Sans` for clean readability across descriptions and metrics.
-  * **Code / Cyber Accent**: `JetBrains Mono` for terminal logs, security metrics, and Kali Linux tool tags.
+I built this site to showcase my hands-on labs, vulnerability assessments, network security projects, and technical skills as I work towards an internship or junior role in cybersecurity and SOC operations.
 
 ---
 
-## ⚡ Architecture & Key Features
+## 💻 What's Inside
 
-### 1. Gravity-Defying Hero
-* Large kinetic typography: `GUGAN M — CYBER SECURITY ARCHITECT & PENETRATION TESTER`.
-* Academic & location telemetry: `B.E. Computer Science & Engineering (Cyber Security) | CGPA: 8.0` with live location `Chennai, TN, India`.
-* Floating 3D/Interactive Terminal Node with real-time port scanning, live packet streams, and threat indicator telemetry.
-* Magnetic hover CTA buttons (`Explore Security Projects`, `Download Resume`, `Init CLI`).
+- **Hero & Live Telemetry Node**: Simulated real-time port scanning and packet inspection dashboard.
+- **Projects Deck**: Overview of my network security analysis lab using Kali Linux tools (Nmap, Wireshark, Metasploit, Tcpdump), plus simulated telemetry for intrusion detection and database security.
+- **Skill Matrix**: Breakdown of the tools and languages I use (Python, Java, C, SQL, Kali Linux, networking concepts), featuring hover-to-reveal command snippets.
+- **Academic Background**: My coursework in Computer Science & Engineering (Cyber Security) at S.A. Engineering College, Chennai.
+- **Interactive Terminal**: A lightweight command-line interface in the browser where you can type commands like `help`, `whoami`, `skills`, `scan`, and `contact`.
 
-### 2. Interactive Cyber Security Projects (Deck Slider Engine)
-* **AntiGravity Inertial Drag / Smooth Motion Slider**: Features touch/mouse dragging, boundary resistance, and velocity skewing (`skewX()` dynamically proportional to drag velocity).
-* **Featured Project**: *Basic Network Security Analysis & Vulnerability Assessment* with interactive Kali Linux tool breakdown (`nmap`, `Wireshark`, `Metasploit`, `tcpdump`).
-* **Live Telemetry Simulator**: Interactive tabs inside project cards displaying live simulated command outputs.
-* **Card Physics**: Vertical oscillation (+/- 8px) with 3D tilt perspective (`transform: rotateX() rotateY()`).
+---
 
-### 3. Technical Arsenal & SOC Capability Matrix
-* Filterable interactive categories: **All Vectors**, **Cyber & Tools**, **Programming**, and **Infrastructure & SQL**.
-* **Interactive CLI Hover Engine**: Hovering any skill card reveals its underlying low-level terminal command or execution snippet in JetBrains Mono.
-* Click-to-copy functionality with instant confirmation feedback.
+## 🛠️ Tech Stack
 
-### 4. Academic Foundation & Metrics
-* **S.A. Engineering College Showcase**: Animated SVG circular progress gauge rendering Gugan's **CGPA: 8.0 / 10.0** (Top-Tier Academic Excellence).
-* **Core Strengths Matrix**: Quick Learner, Problem-Solving Ability, Teamwork & Communication, Adaptability.
-* **Languages Known**: English & Tamil.
-
-### 5. Secure Contact Terminal & Footer
-* **Interactive CLI Terminal Shell**: Fully interactive terminal supporting `help`, `whoami`, `skills`, `scan [target]`, `ping [target]`, `contact`, `download-resume`, `clear`, and `matrix`.
-* **Encrypted Transmission Dispatcher**: Simulated AES-4096 encrypted message submission form.
-* **Official Candidate Declaration**: Directly preserved from CV.
-* **Interactive ATS Resume Modal**: Clean, printable ATS-optimized resume viewer with direct PDF generation / print styling.
-
-### 6. Procedural Cyber Audio Engine
-* Native Web Audio API sound synthesizer with on/off toggle (zero external audio files).
-* Realistic cyber hover chirps, click pulses, terminal keypress clicks, and radar scan pings.
+- **HTML5 & CSS3** (Semantic structure and layout)
+- **Tailwind CSS** (Styling and responsive design)
+- **Vanilla JavaScript** (Slider physics, terminal emulator, and custom interactions)
+- **HTML5 Canvas** (Dynamic background grid)
+- **Web Audio API** (Lightweight sound effects)
+- **Lucide Icons**
 
 ---
 
 ## 🚀 How to Run Locally
 
-### Option 1: Direct File Open
-Simply double-click `index.html` to open it in Chrome, Edge, Firefox, or Safari.
+You can run this project locally without any dependencies or build steps:
 
-### Option 2: Python HTTP Server (Recommended)
-Run the following in PowerShell or Command Prompt from this directory:
-```bash
-python -m http.server 3000
-```
-Then navigate to `http://localhost:3000` in your web browser.
+1. Clone this repository:
+   ```bash
+   git clone git@github.com:guganmurugan77-jpg/gugan_portfolio.git
+   cd gugan_portfolio
+   ```
+
+2. Open `index.html` directly in your browser, or start a local server using Python:
+   ```bash
+   python -m http.server 3000
+   ```
+
+3. Open `http://localhost:3000` in your web browser.
 
 ---
 
-## 👤 Profile Credentials
-* **Name**: Gugan M
-* **Role**: Cyber Security & Ethical Hacking Specialist / Penetration Tester
-* **Institution**: S.A. Engineering College, Chennai (B.E. CSE - Cyber Security, 2024–Present)
-* **CGPA**: 8.0 (Up to 3rd Semester)
-* **Location**: Chennai, Tamil Nadu, India
-* **Email**: `guganmurugan77@gmail.com`
-* **Phone**: `+91 8610228091`
-* **LinkedIn**: [linkedin.com/in/gugan-murugan-727658337](https://www.linkedin.com/in/gugan-murugan-727658337)
+## 📬 Contact & Connect
+
+If you'd like to get in touch regarding internships, projects, or security opportunities:
+
+- **LinkedIn**: [linkedin.com/in/gugan-murugan-727658337](https://www.linkedin.com/in/gugan-murugan-727658337)
+- **GitHub**: [github.com/guganmurugan77-jpg](https://github.com/guganmurugan77-jpg)
