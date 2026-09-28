@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gugan M — Cyber Security Architect & Penetration Tester | Chennai, India</title>
+  <meta name="description" content="Awwwards-level interactive portfolio of Gugan M, Cyber Security & Ethical Hacking Specialist. B.E. CSE (Cyber Security) CGPA 8.0, Kali Linux, Penetration Testing, SOC Analysis.">
+  <meta name="theme-color" content="#0B0C10">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: {
+              DEFAULT: '#0B0C10',
+              subtle: '#12141D',
+              card: '#151824',
+              border: '#1E2336'
+            },
+            emerald: {
+              glow: '#00FF66',
+              dark: '#00993D'
+            },
+            cyan: {
+              glow: '#00E5FF',
+              grid: '#0A2540'
+            }
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-obsidian text-ice selection:bg-emerald-glow selection:text-black">
+
+  <!-- =========================================================================
+       Atmospheric Layers
+       ========================================================================= -->
+  <!-- Canvas for dynamic gravitational grid & particles -->
+  <canvas id="warp-canvas"></canvas>
+
+  <!-- Vignette overlay -->
+  <div class="vignette-overlay"></div>
+
+  <!-- Subtle CRT Scanlines -->
+  <div class="scanlines"></div>
+
+  <!-- Ambient Light Glow Orbs -->
+  <div class="ambient-glow glow-emerald"></div>
+  <div class="ambient-glow glow-cyan"></div>
+
+  <!-- Custom Dual-Ring Target Cursor -->
+  <div id="custom-cursor" class="hidden md:block">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+    <div class="cursor-crosshair cursor-ch-top"></div>
+    <div class="cursor-crosshair cursor-ch-bottom"></div>
+    <div class="cursor-crosshair cursor-ch-left"></div>
+    <div class="cursor-crosshair cursor-ch-right"></div>
+  </div>
+
+  <!-- =========================================================================
+       Top HUD Telemetry Bar
+       ========================================================================= -->
+  <div class="top-telemetry-bar sticky top-0 z-50 px-4 md:px-8 py-2.5 flex items-center justify-between text-xs font-mono text-gray-400">
+    <!-- Left: Status & Location -->
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-glow live-pulse"></span>
+        <span class="text-white font-medium tracking-wide">SYSTEMS ARMED</span>
+      </div>
+      <span class="hidden sm:inline text-gray-600">|</span>
+      <div class="hidden sm:flex items-center gap-1.5 text-gray-300">
+        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-cyan-glow"></i>
+        <span>CHENNAI, TN, INDIA</span>
+      </div>
+      <span class="hidden md:inline text-gray-600">|</span>
+      <div class="hidden md:flex items-center gap-1.5 text-emerald-glow">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+        <span>ZERO-TRUST ACTIVE</span>
+      </div>
+    </div>
+
+    <!-- Right: Telemetry Latency, Clock, Audio Switch -->
+    <div class="flex items-center gap-3 md:gap-5">
+      <div class="hidden lg:flex items-center gap-2">
+        <span class="text-gray-500">RTT:</span>
+        <span id="live-ping-val" class="text-cyan-glow font-bold">21ms</span>
+      </div>
+      <div class="flex items-center gap-2 text-gray-300">
+        <i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-glow"></i>
+        <span id="live-chennai-clock" class="font-bold tracking-wider">--:--:-- IST</span>
+      </div>
+      <!-- Audio Toggle -->
+      <button id="sound-toggle-btn" class="sound-toggle-btn" title="Toggle Procedural Cyber Audio">
+        <span class="sound-icon">
+          <i data-lucide="volume-x" class="w-3.5 h-3.5"></i>
+        </span>
+        <span class="sound-label hidden sm:inline">AUDIO: OFF</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Main Sticky Navigation
+       ========================================================================= -->
+  <nav class="sticky top-[41px] z-40 px-4 md:px-8 py-4 backdrop-blur-md bg-obsidian/70 border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Logo Branding -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded border border-emerald-glow/40 bg-emerald-glow/10 flex items-center justify-center text-emerald-glow font-mono font-bold text-sm group-hover:border-emerald-glow group-hover:shadow-[0_0_15px_rgba(0,255,102,0.5)] transition-all">
+          GM
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-bold text-base md:text-lg tracking-wider text-white flex items-center gap-2">
+            GUGAN M <span class="text-[10px] font-mono text-emerald-glow px-1.5 py-0.5 rounded bg-emerald-glow/10 border border-emerald-glow/30">SEC // 8.0</span>
+          </span>
+          <span class="font-mono text-[11px] text-gray-400">PENETRATION TESTER &amp; DEFENDER</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden md:flex items-center gap-8 font-mono text-xs tracking-wider">
+        <a href="#projects" class="text-gray-300 hover:text-emerald-glow transition-colors flex items-center gap-1.5">
+          <span class="text-emerald-glow">//01</span> PROJECTS
+        </a>
+        <a href="#arsenal" class="text-gray-300 hover:text-emerald-glow transition-colors flex items-center gap-1.5">
+          <span class="text-emerald-glow">//02</span> ARSENAL &amp; SOC
+        </a>
+        <a href="#academic" class="text-gray-300 hover:text-emerald-glow transition-colors flex items-center gap-1.5">
+          <span class="text-emerald-glow">//03</span> ACADEMIC METRICS
+        </a>
+        <a href="#contact" class="text-gray-300 hover:text-emerald-glow transition-colors flex items-center gap-1.5">
+          <span class="text-emerald-glow">//04</span> CONTACT CLI
+        </a>
+      </div>
+
+      <!-- Action Button Group -->
+      <div class="flex items-center gap-3">
+        <button class="open-resume-btn cyber-btn cyber-btn-outline text-xs !py-2.5 !px-4 hidden sm:inline-flex">
+          <i data-lucide="file-text" class="w-3.5 h-3.5 text-cyan-glow"></i>
+          <span>VIEW RESUME</span>
+        </button>
+        <a href="#contact" class="cyber-btn cyber-btn-emerald text-xs !py-2.5 !px-4">
+          <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+          <span>INIT SHELL</span>
+        </a>
+        <!-- Mobile Hamburger -->
+        <button id="mobile-menu-toggle" class="md:hidden p-2 text-gray-300 hover:text-white" aria-label="Toggle Navigation">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-nav-drawer" class="fixed inset-0 z-50 bg-obsidian/95 backdrop-blur-xl p-6 hidden flex flex-col justify-between md:hidden">
+    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+      <div class="font-display font-bold text-lg text-emerald-glow">GUGAN M // NAVIGATION</div>
+      <button id="close-mobile-nav" class="p-2 text-gray-400 hover:text-white">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <div class="flex flex-col gap-6 font-mono text-base py-8">
+      <a href="#projects" class="mobile-nav-link text-gray-200 hover:text-emerald-glow">// 01 PROJECTS &amp; TELEMETRY</a>
+      <a href="#arsenal" class="mobile-nav-link text-gray-200 hover:text-emerald-glow">// 02 TECHNICAL ARSENAL &amp; SOC</a>
+      <a href="#academic" class="mobile-nav-link text-gray-200 hover:text-emerald-glow">// 03 ACADEMIC METRICS &amp; STRENGTHS</a>
+      <a href="#contact" class="mobile-nav-link text-gray-200 hover:text-emerald-glow">// 04 SECURE CONTACT TERMINAL</a>
+    </div>
+    <div class="flex flex-col gap-3">
+      <button class="open-resume-btn cyber-btn cyber-btn-outline w-full justify-center">
+        <i data-lucide="file-text" class="w-4 h-4"></i>
+        <span>VIEW OFFICIAL ATS RESUME</span>
+      </button>
+    </div>
+  </div>
+
+  <main class="relative z-10">
+
+    <!-- =========================================================================
+         SECTION 1: GRAVITY-DEFYING HERO
+         ========================================================================= -->
+    <section class="min-h-[calc(100vh-100px)] flex flex-col justify-center px-4 md:px-8 py-12 md:py-20 max-w-7xl mx-auto relative">
+      
+      <!-- Anti-Gravity Orbital Badges (Floating nodes) -->
+      <div class="hidden lg:flex absolute top-12 right-16 items-center gap-3 float-slow z-20 pointer-events-none">
+        <div class="glass-cyber-glow px-3.5 py-1.5 rounded-full flex items-center gap-2 text-xs font-mono text-emerald-glow">
+          <span class="w-2 h-2 rounded-full bg-emerald-glow animate-ping"></span>
+          KALI LINUX 6.8 KERNEL ACTIVE
+        </div>
+      </div>
+      <div class="hidden lg:flex absolute bottom-28 left-8 items-center gap-3 float-delayed z-20 pointer-events-none">
+        <div class="glass-cyber px-3.5 py-1.5 rounded-full flex items-center gap-2 text-xs font-mono text-cyan-glow border-cyber-cyan">
+          <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+          SOC TELEMETRY SENSOR ONLINE
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <!-- Hero Left Column: Structural Kinetic Typography -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+          <!-- Status Tagline -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="cyber-badge badge-emerald">
+              <i data-lucide="cpu" class="w-3 h-3"></i>
+              B.E. CSE (CYBER SECURITY)
+            </span>
+            <span class="cyber-badge badge-cyan">
+              <i data-lucide="award" class="w-3 h-3"></i>
+              CGPA: 8.0 / 10.0
+            </span>
+            <span class="cyber-badge badge-muted">
+              <i data-lucide="map-pin" class="w-3 h-3 text-red-400"></i>
+              CHENNAI, TN, INDIA
+            </span>
+          </div>
+
+          <!-- Main Kinetic Display Headline -->
+          <div class="space-y-1">
+            <h1 class="font-display font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.05] text-white break-words">
+              GUGAN M
+            </h1>
+            <div class="font-display font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-emerald-glow via-cyan-glow to-white tracking-wide break-words">
+              CYBER SECURITY ARCHITECT &amp; PENETRATION TESTER
+            </div>
+          </div>
+
+          <!-- Description & Career Objective -->
+          <p class="font-body text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed">
+            Motivated and enthusiastic Cyber Security specialist seeking an impactful internship / technical engineering opportunity. Specializing in Kali Linux penetration testing, packet traffic forensics, network vulnerability assessment, and defense-in-depth infrastructure.
+          </p>
+
+          <!-- Metrics Telemetry Pill Strip -->
+          <div class="grid grid-cols-3 gap-3 max-w-lg py-2">
+            <div class="glass-cyber p-3 rounded-lg border-cyber-subtle">
+              <div class="text-[11px] font-mono text-gray-400">ACADEMIC CGPA</div>
+              <div class="font-mono text-xl md:text-2xl font-bold text-emerald-glow">8.0 <span class="text-xs text-gray-500 font-normal">/ 10</span></div>
+            </div>
+            <div class="glass-cyber p-3 rounded-lg border-cyber-subtle">
+              <div class="text-[11px] font-mono text-gray-400">THREAT POSTURE</div>
+              <div class="font-mono text-xl md:text-2xl font-bold text-cyan-glow">ZERO-TRUST</div>
+            </div>
+            <div class="glass-cyber p-3 rounded-lg border-cyber-subtle">
+              <div class="text-[11px] font-mono text-gray-400">CORE ARSENAL</div>
+              <div class="font-mono text-xl md:text-2xl font-bold text-white">KALI / SOC</div>
+            </div>
+          </div>
+
+          <!-- Magnetic CTA Buttons -->
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#projects" class="cyber-btn cyber-btn-emerald magnetic-target">
+              <i data-lucide="shield" class="w-4 h-4"></i>
+              <span>EXPLORE SECURITY PROJECTS</span>
+            </a>
+            <button class="open-resume-btn cyber-btn cyber-btn-outline magnetic-target">
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span>DOWNLOAD RESUME</span>
+            </button>
+            <a href="#contact" class="cyber-btn cyber-btn-outline magnetic-target !border-cyan-glow/40 !text-cyan-glow hover:!bg-cyan-glow/10">
+              <i data-lucide="terminal" class="w-4 h-4"></i>
+              <span>CLI SHELL</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Right Column: Floating 3D/Interactive Terminal Node -->
+        <div class="lg:col-span-5 relative">
+          <div class="cyber-terminal float-slow">
+            <!-- Terminal Header -->
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <div class="terminal-dot dot-red"></div>
+                <div class="terminal-dot dot-yellow"></div>
+                <div class="terminal-dot dot-green"></div>
+              </div>
+              <div class="font-mono text-[11px] text-gray-400 flex items-center gap-2">
+                <i data-lucide="activity" class="w-3 h-3 text-emerald-glow animate-spin"></i>
+                kali@antigravity-soc:~ (live stream)
+              </div>
+              <span class="text-[10px] font-mono text-emerald-glow px-1.5 py-0.5 rounded bg-emerald-glow/10 border border-emerald-glow/30">
+                ACTIVE
+              </span>
+            </div>
+
+            <!-- Real-time HUD Status Indicators -->
+            <div class="grid grid-cols-3 bg-[#0a0d14] px-4 py-2 border-b border-white/5 font-mono text-[11px]">
+              <div>
+                <span class="text-gray-500">PACKETS:</span>
+                <span id="telemetry-pps" class="text-cyan-glow ml-1 font-semibold">1,480 pkts/s</span>
+              </div>
+              <div>
+                <span class="text-gray-500">SEVERITY:</span>
+                <span id="telemetry-threat" class="text-emerald-glow ml-1 font-semibold">9.8/10</span>
+              </div>
+              <div>
+                <span class="text-gray-500">LATENCY:</span>
+                <span id="telemetry-latency" class="text-amber-glow ml-1 font-semibold">22 ms</span>
+              </div>
+            </div>
+
+            <!-- Terminal Stream Body -->
+            <div id="hero-terminal-logs" class="terminal-body space-y-1">
+              <!-- Logs injected dynamically via JS -->
+            </div>
+
+            <!-- Mini Terminal Footer Actions -->
+            <div class="bg-[#0b0e17] px-4 py-2.5 border-t border-white/5 flex items-center justify-between text-xs font-mono">
+              <div class="flex items-center gap-2 text-gray-400">
+                <span class="w-2 h-2 rounded-full bg-cyan-glow"></span>
+                <span>MONITORING 192.168.1.0/24</span>
+              </div>
+              <button onclick="document.getElementById('cli-terminal-input') && document.getElementById('cli-terminal-input').focus(); window.location.href='#contact';" class="text-emerald-glow hover:underline flex items-center gap-1">
+                <span>INTERACTIVE CLI</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 2: INTERACTIVE CYBER SECURITY PROJECTS (HORIZONTAL DECK SLIDER)
+         ========================================================================= -->
+    <section id="projects" class="py-20 md:py-28 border-t border-white/5 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 md:px-8">
+        <!-- Section Header with Slider Navigation Controls -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div class="flex items-center gap-2 font-mono text-xs text-emerald-glow tracking-widest mb-2">
+              <i data-lucide="binary" class="w-4 h-4"></i>
+              // SECTION 02: PENETRATION TESTING &amp; ASSESSMENT LABS
+            </div>
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight break-words">
+              CYBER SECURITY PROJECTS
+            </h2>
+            <p class="font-body text-gray-400 mt-2 max-w-xl text-sm md:text-base">
+              Featuring dynamic Kali Linux vulnerability scanning, network traffic inspection, and defensive hardening. Drag horizontally or use controls to inspect telemetry.
+            </p>
+          </div>
+
+          <!-- Slider Controls -->
+          <div class="flex items-center gap-4">
+            <span class="text-xs font-mono text-gray-500 hidden sm:inline">
+              [INERTIAL DRAG VELOCITY SKEW ENGINE]
+            </span>
+            <div class="flex items-center gap-2">
+              <button id="slider-prev" class="w-11 h-11 rounded-lg border border-white/10 bg-obsidian-subtle flex items-center justify-center text-gray-300 hover:text-emerald-glow hover:border-emerald-glow transition-all" aria-label="Previous Project">
+                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+              </button>
+              <button id="slider-next" class="w-11 h-11 rounded-lg border border-white/10 bg-obsidian-subtle flex items-center justify-center text-gray-300 hover:text-emerald-glow hover:border-emerald-glow transition-all" aria-label="Next Project">
+                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal Deck Viewport with Drag Physics -->
+      <div class="project-slider-viewport pl-4 md:pl-8">
+        <div class="project-track">
+
+          <!-- CARD 1: FEATURED ACADEMIC PROJECT (Directly from Resume) -->
+          <article class="project-card p-6 flex flex-col justify-between" data-category="network">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="cyber-badge badge-emerald">
+                  <i data-lucide="star" class="w-3 h-3 fill-emerald-glow"></i>
+                  FEATURED ACADEMIC PROJECT
+                </span>
+                <span class="font-mono text-xs text-gray-500">ID: SEC-PROJ-01</span>
+              </div>
+
+              <h3 class="font-display font-bold text-2xl text-white mb-2 group-hover:text-emerald-glow transition-colors">
+                Basic Network Security Analysis &amp; Vulnerability Assessment
+              </h3>
+
+              <p class="font-body text-gray-300 text-sm leading-relaxed mb-4">
+                Performed comprehensive vulnerability assessments, network traffic capture, and system security profiling using the complete Kali Linux suite. Investigated TCP/IP handshakes, open port exposure, and threat surface mitigation.
+              </p>
+
+              <!-- Kali Linux Tool Tag Breakdown -->
+              <div class="mb-5">
+                <div class="text-[11px] font-mono text-gray-400 mb-2">DEPLOYED KALI ARSENAL:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="cyber-badge badge-cyan">Nmap</span>
+                  <span class="cyber-badge badge-cyan">Wireshark</span>
+                  <span class="cyber-badge badge-cyan">Metasploit Framework</span>
+                  <span class="cyber-badge badge-muted">Tcpdump</span>
+                  <span class="cyber-badge badge-muted">Kali OS</span>
+                </div>
+              </div>
+
+              <!-- Interactive Telemetry Tabs -->
+              <div class="card-mini-terminal p-3 mb-4">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2">
+                  <div class="flex gap-2">
+                    <button class="telemetry-tab-btn text-[11px] font-mono px-2 py-0.5 rounded active text-emerald-glow bg-emerald-glow/10 border border-emerald-glow/30" data-tab="nmap">
+                      NMAP SCAN
+                    </button>
+                    <button class="telemetry-tab-btn text-[11px] font-mono px-2 py-0.5 rounded text-gray-400 hover:text-white" data-tab="wireshark">
+                      WIRESHARK PCAP
+                    </button>
+                    <button class="telemetry-tab-btn text-[11px] font-mono px-2 py-0.5 rounded text-gray-400 hover:text-white" data-tab="metasploit">
+                      METASPLOIT VULN
+                    </button>
+                  </div>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-glow"></span>
+                </div>
+
+                <!-- Pane 1: Nmap -->
+                <div class="telemetry-content-pane text-[11px] space-y-1 font-mono" data-pane="nmap">
+                  <div class="text-cyan-400">$ nmap -sS -sV -O 192.168.1.1</div>
+                  <div class="text-gray-300">Host is up (0.0019s latency).</div>
+                  <div class="text-emerald-400">22/tcp open  ssh   OpenSSH 8.9</div>
+                  <div class="text-emerald-400">80/tcp open  http  Apache 2.4.52</div>
+                  <div class="text-amber-400">3306/tcp open mysql MySQL 8.0</div>
+                </div>
+
+                <!-- Pane 2: Wireshark -->
+                <div class="telemetry-content-pane text-[11px] space-y-1 font-mono hidden" data-pane="wireshark">
+                  <div class="text-cyan-400">[PCAP FILTER: tcp.flags.syn==1]</div>
+                  <div class="text-gray-400">10.0.0.15 -&gt; 192.168.1.1 [SYN] Seq=0</div>
+                  <div class="text-emerald-400">192.168.1.1 -&gt; 10.0.0.15 [SYN, ACK] Seq=0 Ack=1</div>
+                  <div class="text-gray-400">10.0.0.15 -&gt; 192.168.1.1 [ACK] Seq=1 Ack=1</div>
+                </div>
+
+                <!-- Pane 3: Metasploit -->
+                <div class="telemetry-content-pane text-[11px] space-y-1 font-mono hidden" data-pane="metasploit">
+                  <div class="text-cyan-400">msf6 &gt; use auxiliary/scanner/portscan/syn</div>
+                  <div class="text-gray-300">[+] Scanning 192.168.1.1 [Ports: 1-1024]</div>
+                  <div class="text-emerald-400">[+] 192.168.1.1:80 - Service verified</div>
+                  <div class="text-amber-400">[!] Auxiliary check completed: 0 zero-day exploits.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Bottom Telemetry Spec -->
+            <div class="border-t border-white/10 pt-4 flex items-center justify-between text-xs font-mono text-gray-400">
+              <span class="flex items-center gap-1.5 text-emerald-glow">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                VERIFIED ACADEMIC LAB
+              </span>
+              <span>CHENNAI // 2024-2026</span>
+            </div>
+          </article>
+
+          <!-- CARD 2: SOC TELEMETRY & INTRUSION DETECTION LAB -->
+          <article class="project-card p-6 flex flex-col justify-between" data-category="soc">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="cyber-badge badge-cyan">
+                  <i data-lucide="shield-alert" class="w-3 h-3"></i>
+                  SOC &amp; SIEM DEFENSE
+                </span>
+                <span class="font-mono text-xs text-gray-500">ID: SEC-PROJ-02</span>
+              </div>
+
+              <h3 class="font-display font-bold text-2xl text-white mb-2">
+                SOC Intrusion Detection &amp; SIEM Log Telemetry Lab
+              </h3>
+
+              <p class="font-body text-gray-300 text-sm leading-relaxed mb-4">
+                Engineered an automated network security monitoring node using Suricata and Snort IDS. Simulated brute-force attacks and port floods to formulate signature detection rules and triage alert anomalies in real-time.
+              </p>
+
+              <!-- Tags -->
+              <div class="mb-5">
+                <div class="text-[11px] font-mono text-gray-400 mb-2">SECURITY ARSENAL:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="cyber-badge badge-emerald">Suricata IDS</span>
+                  <span class="cyber-badge badge-cyan">Snort</span>
+                  <span class="cyber-badge badge-cyan">SIEM Log Analysis</span>
+                  <span class="cyber-badge badge-muted">Linux Syslog</span>
+                </div>
+              </div>
+
+              <!-- Mini Terminal -->
+              <div class="card-mini-terminal p-3 mb-4">
+                <div class="text-cyan-400 font-mono text-xs mb-1">$ suricata -c /etc/suricata.yaml -i eth0</div>
+                <div class="text-gray-400 font-mono text-[11px]">[ALERT] ET SCAN Potential SSH Brute Force [192.168.1.155]</div>
+                <div class="text-emerald-400 font-mono text-[11px]">[BLOCKED] IP 192.168.1.155 dropped by iptables fail2ban rule.</div>
+              </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-4 flex items-center justify-between text-xs font-mono text-gray-400">
+              <span class="flex items-center gap-1.5 text-cyan-glow">
+                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                BLUE TEAM DEFENSE
+              </span>
+              <span>STATUS: ARMED</span>
+            </div>
+          </article>
+
+          <!-- CARD 3: AUTOMATED SQL INJECTION & DATABASE HARDENING -->
+          <article class="project-card p-6 flex flex-col justify-between" data-category="database">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="cyber-badge badge-amber">
+                  <i data-lucide="database" class="w-3 h-3"></i>
+                  DATABASE AUDITING
+                </span>
+                <span class="font-mono text-xs text-gray-500">ID: SEC-PROJ-03</span>
+              </div>
+
+              <h3 class="font-display font-bold text-2xl text-white mb-2">
+                Automated SQL Injection &amp; Database Vulnerability Auditor
+              </h3>
+
+              <p class="font-body text-gray-300 text-sm leading-relaxed mb-4">
+                Designed a security auditing script combining Python and SQL to uncover improper query sanitization, blind boolean injection flaws, and role-based access control (RBAC) misconfigurations.
+              </p>
+
+              <!-- Tags -->
+              <div class="mb-5">
+                <div class="text-[11px] font-mono text-gray-400 mb-2">STACK &amp; TOOLS:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="cyber-badge badge-emerald">Python</span>
+                  <span class="cyber-badge badge-cyan">SQL Security</span>
+                  <span class="cyber-badge badge-cyan">SQLMap</span>
+                  <span class="cyber-badge badge-muted">OWASP Top 10</span>
+                </div>
+              </div>
+
+              <!-- Mini Terminal -->
+              <div class="card-mini-terminal p-3 mb-4">
+                <div class="text-cyan-400 font-mono text-xs mb-1">$ python3 sql_auditor.py --target db.internal</div>
+                <div class="text-gray-400 font-mono text-[11px]">[TEST] Injecting tautology payload `' OR '1'='1` ...</div>
+                <div class="text-emerald-400 font-mono text-[11px]">[SECURE] Prepared Statements detected. Zero leak vectors.</div>
+              </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-4 flex items-center justify-between text-xs font-mono text-gray-400">
+              <span class="flex items-center gap-1.5 text-amber-glow">
+                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                DATA PROTECTION
+              </span>
+              <span>SECURED</span>
+            </div>
+          </article>
+
+          <!-- CARD 4: ENTERPRISE NETWORK PERIMETER HARDENING -->
+          <article class="project-card p-6 flex flex-col justify-between" data-category="network">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="cyber-badge badge-emerald">
+                  <i data-lucide="network" class="w-3 h-3"></i>
+                  NETWORKING &amp; ARCHITECTURE
+                </span>
+                <span class="font-mono text-xs text-gray-500">ID: SEC-PROJ-04</span>
+              </div>
+
+              <h3 class="font-display font-bold text-2xl text-white mb-2">
+                Enterprise Zero-Trust Perimeter &amp; Subnet Isolation
+              </h3>
+
+              <p class="font-body text-gray-300 text-sm leading-relaxed mb-4">
+                Configured granular VLAN segmentation and packet filtering rules. Modeled OSI layer attacks, ARP spoofing mitigations, and ingress/egress firewall inspections for zero-trust compliance.
+              </p>
+
+              <!-- Tags -->
+              <div class="mb-5">
+                <div class="text-[11px] font-mono text-gray-400 mb-2">CONCEPTS &amp; PROTOCOLS:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="cyber-badge badge-emerald">TCP/IP</span>
+                  <span class="cyber-badge badge-cyan">Subnetting</span>
+                  <span class="cyber-badge badge-cyan">Firewall Rules</span>
+                  <span class="cyber-badge badge-muted">OSI Layer Defense</span>
+                </div>
+              </div>
+
+              <!-- Mini Terminal -->
+              <div class="card-mini-terminal p-3 mb-4">
+                <div class="text-cyan-400 font-mono text-xs mb-1">$ iptables -L -n -v --line-numbers</div>
+                <div class="text-gray-400 font-mono text-[11px]">Chain FORWARD (policy DROP 124 pkts)</div>
+                <div class="text-emerald-400 font-mono text-[11px]">ACCEPT all -- 10.0.10.0/24 10.0.20.0/24 state RELATED,ESTABLISHED</div>
+              </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-4 flex items-center justify-between text-xs font-mono text-gray-400">
+              <span class="flex items-center gap-1.5 text-emerald-glow">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                AUDITED &amp; HARDENED
+              </span>
+              <span>100% PACKET INTEGRITY</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 3: TECHNICAL ARSENAL & SOC CAPABILITY MATRIX
+         ========================================================================= -->
+    <section id="arsenal" class="py-20 md:py-28 border-t border-white/5 relative">
+      <div class="max-w-7xl mx-auto px-4 md:px-8">
+        
+        <!-- Header & Category Filter Tabs -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div class="flex items-center gap-2 font-mono text-xs text-cyan-glow tracking-widest mb-2">
+              <i data-lucide="cpu" class="w-4 h-4"></i>
+              // SECTION 03: CAPABILITIES &amp; WEAPONRY
+            </div>
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight break-words">
+              TECHNICAL ARSENAL &amp; SOC MATRIX
+            </h2>
+            <p class="font-body text-gray-400 mt-2 text-sm md:text-base max-w-xl">
+              Hover any capability card to reveal its underlying low-level CLI command or execution snippet in JetBrains Mono. Click to copy command instantly.
+            </p>
+          </div>
+
+          <!-- Category Filters -->
+          <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+            <button class="skill-filter-btn px-3.5 py-1.5 rounded border border-emerald-glow text-emerald-glow bg-emerald-glow/20 transition-all" data-filter="all">
+              ALL VECTORS
+            </button>
+            <button class="skill-filter-btn px-3.5 py-1.5 rounded border border-white/10 text-gray-400 hover:text-white transition-all" data-filter="security">
+              CYBER &amp; TOOLS
+            </button>
+            <button class="skill-filter-btn px-3.5 py-1.5 rounded border border-white/10 text-gray-400 hover:text-white transition-all" data-filter="programming">
+              PROGRAMMING
+            </button>
+            <button class="skill-filter-btn px-3.5 py-1.5 rounded border border-white/10 text-gray-400 hover:text-white transition-all" data-filter="infrastructure">
+              INFRA &amp; SQL
+            </button>
+          </div>
+        </div>
+
+        <!-- Capability Counter -->
+        <div class="flex items-center justify-between text-xs font-mono text-gray-500 mb-6 border-b border-white/5 pb-2">
+          <span id="active-skills-count">10 VECTORS ACTIVE</span>
+          <span>INTERACTIVE HOVER SNIPPET ENGINE ACTIVE</span>
+        </div>
+
+        <!-- Filterable Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Skill 1: Kali Linux -->
+          <div class="skill-card group" data-category="security">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-emerald-glow/10 border border-emerald-glow/30 flex items-center justify-center text-emerald-glow">
+                  <i data-lucide="terminal" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-emerald-glow transition-colors">Kali Linux</h4>
+                  <span class="text-xs font-mono text-emerald-glow">CORE OS &amp; OFFENSIVE LAB</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-emerald">PRIMARY</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Proficient in offensive distributions, terminal command automation, kernel module inspection, and network interface manipulation.
+            </p>
+            <!-- Hover Reveal Snippet -->
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Start wireless monitor mode</span><br>
+              <span class="text-emerald-400">sudo airmon-ng start wlan0 &amp;&amp; airodump-ng wlan0mon</span>
+            </div>
+          </div>
+
+          <!-- Skill 2: Penetration Testing -->
+          <div class="skill-card group" data-category="security">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow">
+                  <i data-lucide="crosshair" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-cyan-glow transition-colors">Penetration Testing</h4>
+                  <span class="text-xs font-mono text-cyan-glow">VULNERABILITY RECON</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-cyan">EXPERT</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Execution of reconnaissance, service enumeration, exploit verification, and security risk assessment across target network nodes.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Metasploit auxiliary port scan</span><br>
+              <span class="text-cyan-400">msfconsole -q -x "use auxiliary/scanner/portscan/syn; run"</span>
+            </div>
+          </div>
+
+          <!-- Skill 3: SOC Analysis -->
+          <div class="skill-card group" data-category="security">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-amber-glow/10 border border-amber-glow/30 flex items-center justify-center text-amber-glow">
+                  <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-amber-glow transition-colors">SOC Analysis</h4>
+                  <span class="text-xs font-mono text-amber-glow">INCIDENT RESPONSE</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-amber">BLUE TEAM</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Security Operations Center mindset, log inspection, anomaly correlation, alert severity grading, and incident triaging.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Suricata signature IDS runner</span><br>
+              <span class="text-amber-400">suricata -c /etc/suricata/suricata.yaml -i eth0 --runmode autofp</span>
+            </div>
+          </div>
+
+          <!-- Skill 4: Python -->
+          <div class="skill-card group" data-category="programming">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-emerald-glow/10 border border-emerald-glow/30 flex items-center justify-center text-emerald-glow">
+                  <i data-lucide="code-2" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-emerald-glow transition-colors">Python</h4>
+                  <span class="text-xs font-mono text-emerald-glow">SCRIPTING &amp; AUTOMATION</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-emerald">PRO</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Custom vulnerability scanner development, socket programming, packet crafting with Scapy, and automated audit tooling.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Scapy SYN packet injection</span><br>
+              <span class="text-emerald-400">python3 -c "from scapy.all import *; send(IP(dst='192.168.1.1')/TCP(dport=80,flags='S'))"</span>
+            </div>
+          </div>
+
+          <!-- Skill 5: Java -->
+          <div class="skill-card group" data-category="programming">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow">
+                  <i data-lucide="file-code" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-cyan-glow transition-colors">Java</h4>
+                  <span class="text-xs font-mono text-cyan-glow">OOP &amp; SECURE APPS</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-cyan">CORE</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Object-oriented design, cryptographic implementations (AES, SHA-256), memory-safe data structures, and backend security.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Compile with security checks</span><br>
+              <span class="text-cyan-400">javac -Xlint:all -encoding UTF-8 SecureCryptVault.java</span>
+            </div>
+          </div>
+
+          <!-- Skill 6: C (Basics) -->
+          <div class="skill-card group" data-category="programming">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-white/10 border border-white/20 flex items-center justify-center text-white">
+                  <i data-lucide="cpu" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-emerald-glow transition-colors">C (Basics)</h4>
+                  <span class="text-xs font-mono text-gray-400">SYSTEM ARCHITECTURE</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-muted">FOUNDATION</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Pointers, memory management, buffer boundary understanding, low-level system calls, and stack inspection.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Compile with stack protection</span><br>
+              <span class="text-emerald-400">gcc -fstack-protector-all -Wformat-security audit_sys.c -o audit</span>
+            </div>
+          </div>
+
+          <!-- Skill 7: Networking Concepts -->
+          <div class="skill-card group" data-category="infrastructure">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow">
+                  <i data-lucide="git-branch" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-cyan-glow transition-colors">Networking Concepts</h4>
+                  <span class="text-xs font-mono text-cyan-glow">TCP/IP, OSI &amp; SUBNETTING</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-cyan">INFRA</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Deep understanding of the 7-layer OSI model, packet routing, ARP, DNS, DHCP, CIDR subnetting, and perimeter design.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Inspect live packet flow</span><br>
+              <span class="text-cyan-400">tcpdump -i eth0 -nn -s0 -v 'tcp[tcpflags] &amp; tcp-syn != 0'</span>
+            </div>
+          </div>
+
+          <!-- Skill 8: SQL Database Security -->
+          <div class="skill-card group" data-category="infrastructure">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-emerald-glow/10 border border-emerald-glow/30 flex items-center justify-center text-emerald-glow">
+                  <i data-lucide="database" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-emerald-glow transition-colors">SQL Database Security</h4>
+                  <span class="text-xs font-mono text-emerald-glow">RELATIONAL INTEGRITY</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-emerald">SECURITY</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              SQL querying, database normalization, relational schema design, mitigation of injection attacks via prepared parameterized statements.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Audit query for SQLi safety</span><br>
+              <span class="text-emerald-400">SELECT * FROM accounts WHERE id = ? /* PARAMETERIZED PREPARED STMT */</span>
+            </div>
+          </div>
+
+          <!-- Skill 9: Ethical Hacking -->
+          <div class="skill-card group" data-category="security">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded bg-emerald-glow/10 border border-emerald-glow/30 flex items-center justify-center text-emerald-glow">
+                  <i data-lucide="skull" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-lg text-white group-hover:text-emerald-glow transition-colors">Ethical Hacking</h4>
+                  <span class="text-xs font-mono text-emerald-glow">WHITE HAT AUDITING</span>
+                </div>
+              </div>
+              <span class="cyber-badge badge-emerald">OFFENSIVE</span>
+            </div>
+            <p class="font-body text-gray-400 text-xs mt-3">
+              Proactive vulnerability discovery, threat surface mapping, ethical proof-of-concept creation, and defensive remediation reports.
+            </p>
+            <div class="skill-cli-reveal" title="Click to copy command">
+              <span class="text-gray-500"># Comprehensive script scan</span><br>
+              <span class="text-emerald-400">nmap -sV -sC -O -T4 --script=vuln 192.168.1.1</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 4: ACADEMIC FOUNDATION & METRICS
+         ========================================================================= -->
+    <section id="academic" class="py-20 md:py-28 border-t border-white/5 relative">
+      <div class="max-w-7xl mx-auto px-4 md:px-8">
+        
+        <!-- Section Header -->
+        <div class="mb-12">
+          <div class="flex items-center gap-2 font-mono text-xs text-emerald-glow tracking-widest mb-2">
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            // SECTION 04: ACADEMIC FOUNDATION &amp; METRICS
+          </div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight break-words">
+            ACADEMIC FOUNDATION &amp; METRICS
+          </h2>
+          <p class="font-body text-gray-400 mt-2 text-sm md:text-base max-w-2xl leading-relaxed">
+            Formative computer science, systems engineering, and defensive cybersecurity coursework at S.A. Engineering College, Chennai.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Left: College Details & CGPA Gauge -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <!-- College Card -->
+            <div class="glass-cyber p-6 rounded-xl border-cyber-subtle space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="cyber-badge badge-emerald">
+                  <i data-lucide="building-2" class="w-3 h-3"></i>
+                  AFFILIATED INSTITUTION
+                </span>
+                <span class="font-mono text-xs text-gray-500">CHENNAI, TN</span>
+              </div>
+
+              <div>
+                <h3 class="font-display font-bold text-xl sm:text-2xl text-white tracking-wide break-words">
+                  S.A. Engineering College
+                </h3>
+                <div class="text-sm font-semibold text-cyan-glow mt-1 break-words">
+                  B.E. Computer Science and Engineering &mdash; Cyber Security
+                </div>
+                <div class="font-mono text-xs text-gray-400 flex items-center gap-2 mt-2">
+                  <i data-lucide="calendar" class="w-3.5 h-3.5 text-emerald-glow"></i>
+                  <span>2024 &mdash; Present (Up to 3rd Semester)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CGPA Circular Animated Gauge -->
+            <div class="glass-cyber p-6 rounded-xl border-cyber-emerald flex items-center gap-5 sm:gap-6">
+              <div class="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center shrink-0">
+                <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                  <!-- Background Track -->
+                  <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.08)" stroke-width="9" fill="transparent" />
+                  <!-- Animated Progress Arc -->
+                  <circle id="cgpa-circle-progress" cx="60" cy="60" r="52" stroke="#00FF66" stroke-width="9" stroke-linecap="round" fill="transparent" class="transition-all duration-1000" />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center font-mono">
+                  <span id="cgpa-score-val" class="text-xl sm:text-2xl font-extrabold text-white">0.0</span>
+                  <span class="text-[9px] sm:text-[10px] text-gray-400">OUT OF 10.0</span>
+                </div>
+              </div>
+
+              <div class="min-w-0">
+                <div class="font-display font-bold text-lg sm:text-xl text-white">Top-Tier Performance</div>
+                <div class="font-mono text-[11px] sm:text-xs text-emerald-glow mt-1">ACADEMIC EXCELLENCE (80%)</div>
+                <p class="font-body text-xs text-gray-400 mt-2 leading-relaxed">
+                  Rigorous focus on Network Security, Cryptography, Database Management Systems, and OS Security Principles.
+                </p>
+              </div>
+            </div>
+
+            <!-- Languages Known -->
+            <div class="glass-cyber p-4 rounded-lg flex items-center justify-between font-mono text-xs">
+              <span class="text-gray-400">LANGUAGES KNOWN:</span>
+              <div class="flex gap-2">
+                <span class="cyber-badge badge-emerald">ENGLISH (PROFICIENT)</span>
+                <span class="cyber-badge badge-cyan">TAMIL (NATIVE)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Core Strengths Matrix -->
+          <div class="lg:col-span-7 space-y-6">
+            <div>
+              <div class="font-mono text-xs text-gray-400 tracking-wider mb-2">CORE COMPETENCIES &amp; BEHAVIORAL ATTRIBUTES</div>
+              <h3 class="font-display font-bold text-2xl sm:text-3xl text-white tracking-tight break-words">
+                Engineered for High-Pressure Security Ops
+              </h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Strength 1 -->
+              <div class="glass-cyber p-5 rounded-lg border-cyber-subtle hover:border-emerald-glow/40 transition-all group">
+                <div class="w-10 h-10 rounded bg-emerald-glow/10 border border-emerald-glow/30 flex items-center justify-center text-emerald-glow mb-3 group-hover:scale-110 transition-transform">
+                  <i data-lucide="zap" class="w-5 h-5"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg text-white mb-1">Quick Learner</h4>
+                <p class="font-body text-xs text-gray-300 leading-relaxed">
+                  Rapid absorption of new threat intelligence, penetration frameworks, Kali utilities, and security protocol standards.
+                </p>
+                <div class="mt-3 font-mono text-[10px] text-emerald-glow">TELEMETRY: RAPID SYNC ACTIVE</div>
+              </div>
+
+              <!-- Strength 2 -->
+              <div class="glass-cyber p-5 rounded-lg border-cyber-subtle hover:border-cyan-glow/40 transition-all group">
+                <div class="w-10 h-10 rounded bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow mb-3 group-hover:scale-110 transition-transform">
+                  <i data-lucide="puzzle" class="w-5 h-5"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg text-white mb-1">Problem-Solving Ability</h4>
+                <p class="font-body text-xs text-gray-300 leading-relaxed">
+                  Systematic decomposition of complex network vulnerabilities, firewall blockades, and defensive architectural flaws.
+                </p>
+                <div class="mt-3 font-mono text-[10px] text-cyan-glow">TELEMETRY: ALGORITHMIC TRIAGE</div>
+              </div>
+
+              <!-- Strength 3 -->
+              <div class="glass-cyber p-5 rounded-lg border-cyber-subtle hover:border-amber-glow/40 transition-all group">
+                <div class="w-10 h-10 rounded bg-amber-glow/10 border border-amber-glow/30 flex items-center justify-center text-amber-glow mb-3 group-hover:scale-110 transition-transform">
+                  <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg text-white mb-1">Teamwork &amp; Communication</h4>
+                <p class="font-body text-xs text-gray-300 leading-relaxed">
+                  Clear reporting of technical vulnerabilities to cross-functional engineering teams, aligning offensive findings with defensive goals.
+                </p>
+                <div class="mt-3 font-mono text-[10px] text-amber-glow">TELEMETRY: CROSS-TEAM SYNERGY</div>
+              </div>
+
+              <!-- Strength 4 -->
+              <div class="glass-cyber p-5 rounded-lg border-cyber-subtle hover:border-purple-400/40 transition-all group">
+                <div class="w-10 h-10 rounded bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-3 group-hover:scale-110 transition-transform">
+                  <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg text-white mb-1">Adaptability</h4>
+                <p class="font-body text-xs text-gray-300 leading-relaxed">
+                  Resilient under shifting threat surfaces, zero-day advisories, and evolving cloud/on-premise networking paradigms.
+                </p>
+                <div class="mt-3 font-mono text-[10px] text-purple-400">TELEMETRY: RESILIENT MITIGATION</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 5: SECURE CONTACT TERMINAL & CLI
+         ========================================================================= -->
+    <section id="contact" class="py-20 md:py-28 border-t border-white/5 relative">
+      <div class="max-w-7xl mx-auto px-4 md:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          <!-- Left: Direct Contact Vectors & Message Transmission -->
+          <div class="lg:col-span-6 flex flex-col gap-6">
+            <div class="flex items-center gap-2 font-mono text-xs text-emerald-glow tracking-widest">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+              // SECTION 05: SECURE CHANNELS &amp; CONTACT
+            </div>
+
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight break-words">
+              INITIALIZE CONTACT VECTOR
+            </h2>
+
+            <p class="font-body text-gray-300 text-sm md:text-base leading-relaxed">
+              Available for Cybersecurity Internships, Junior Penetration Tester roles, SOC Analyst positions, and network defense collaborations. Reach out through direct encrypted channels or use the command terminal on the right.
+            </p>
+
+            <!-- Vector Cards -->
+            <div class="space-y-3">
+              <!-- Email Card -->
+              <div class="glass-cyber p-4 rounded-lg flex items-center justify-between border-cyber-subtle hover:border-emerald-glow/40 transition-all">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded bg-emerald-glow/10 border border-emerald-glow/30 flex items-center justify-center text-emerald-glow">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="text-[11px] font-mono text-gray-400">DIRECT EMAIL</div>
+                    <a href="mailto:guganmurugan77@gmail.com" class="font-mono text-sm text-white hover:text-emerald-glow transition-colors">
+                      guganmurugan77@gmail.com
+                    </a>
+                  </div>
+                </div>
+                <button id="copy-email-btn" class="cyber-btn cyber-btn-outline !py-1.5 !px-3 text-xs" title="Copy email address">
+                  <span>COPY</span>
+                </button>
+              </div>
+
+              <!-- Phone Card -->
+              <div class="glass-cyber p-4 rounded-lg flex items-center justify-between border-cyber-subtle hover:border-cyan-glow/40 transition-all">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="text-[11px] font-mono text-gray-400">TELEPHONE / WHATSAPP</div>
+                    <a href="tel:+918610228091" class="font-mono text-sm text-white hover:text-cyan-glow transition-colors">
+                      +91 8610228091
+                    </a>
+                  </div>
+                </div>
+                <a href="tel:+918610228091" class="cyber-btn cyber-btn-outline !py-1.5 !px-3 text-xs">
+                  <span>CALL</span>
+                </a>
+              </div>
+
+              <!-- LinkedIn Card -->
+              <div class="glass-cyber p-4 rounded-lg flex items-center justify-between border-cyber-subtle hover:border-blue-400/40 transition-all">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                    <i data-lucide="linkedin" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="text-[11px] font-mono text-gray-400">PROFESSIONAL NETWORK</div>
+                    <span class="font-mono text-sm text-white">
+                      linkedin.com/in/gugan-murugan
+                    </span>
+                  </div>
+                </div>
+                <a href="https://www.linkedin.com/in/gugan-murugan-727658337" target="_blank" rel="noopener noreferrer" class="cyber-btn cyber-btn-outline !py-1.5 !px-3 text-xs !border-blue-400/40 !text-blue-400 hover:!bg-blue-400/10">
+                  <span>CONNECT</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Encrypted Transmission Form -->
+            <form id="secure-contact-form" class="glass-cyber p-5 rounded-lg border-cyber-subtle space-y-4">
+              <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                <span class="font-mono text-xs text-emerald-glow flex items-center gap-2">
+                  <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                  DISPATCH ENCRYPTED TRANSMISSION
+                </span>
+                <span class="text-[10px] font-mono text-gray-500">AES-4096 GCM</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block font-mono text-[11px] text-gray-400 mb-1">OPERATOR NAME</label>
+                  <input type="text" required placeholder="Security Recruiter / Lead" class="w-full bg-[#0a0d14] border border-white/10 rounded px-3 py-2 text-xs font-mono text-white focus:border-emerald-glow focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-mono text-[11px] text-gray-400 mb-1">TRANSMISSION RETURN ADDR</label>
+                  <input type="email" required placeholder="recruiter@enterprise.com" class="w-full bg-[#0a0d14] border border-white/10 rounded px-3 py-2 text-xs font-mono text-white focus:border-emerald-glow focus:outline-none">
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-mono text-[11px] text-gray-400 mb-1">PAYLOAD SPECIFICATION (MESSAGE)</label>
+                <textarea rows="3" required placeholder="Inquiry regarding Cyber Security Internship / Penetration Testing role..." class="w-full bg-[#0a0d14] border border-white/10 rounded px-3 py-2 text-xs font-mono text-white focus:border-emerald-glow focus:outline-none"></textarea>
+              </div>
+
+              <div class="flex items-center justify-between pt-1">
+                <div id="transmission-status" class="hidden"></div>
+                <button type="submit" class="cyber-btn cyber-btn-emerald w-full justify-center text-xs">
+                  <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                  <span>TRANSMIT ENCRYPTED PAYLOAD</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right: Section 5 Interactive Cyber CLI Terminal Shell -->
+          <div class="lg:col-span-6 flex flex-col">
+            <div class="cyber-terminal flex-1 flex flex-col">
+              <!-- Header -->
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <div class="terminal-dot dot-red"></div>
+                  <div class="terminal-dot dot-yellow"></div>
+                  <div class="terminal-dot dot-green"></div>
+                </div>
+                <div class="font-mono text-xs text-gray-300">
+                  gugan@anti-gravity:~$ /bin/zsh
+                </div>
+                <div class="text-[10px] font-mono text-cyan-glow bg-cyan-glow/10 border border-cyan-glow/30 px-2 py-0.5 rounded">
+                  PORT 22 / SSH SECURE
+                </div>
+              </div>
+
+              <!-- Output Buffer -->
+              <div id="cli-terminal-output" class="terminal-body flex-1 font-mono text-xs overflow-y-auto min-h-[380px] max-h-[460px]">
+                <div class="text-gray-400 mb-2">
+                  AntiGravity Cyber-Obsidian Terminal v3.2.0 [x86_64-kali-linux]<br>
+                  Security Kernel: 6.8.0-kali • Operator: Gugan M • CGPA: 8.0<br>
+                  Type <span class="text-emerald-400 font-bold">help</span> to view available system commands.
+                </div>
+                <div class="text-emerald-400 mb-2">
+                  [SYSTEM READY] Enter command below to execute security routines or extract contact credentials:
+                </div>
+              </div>
+
+              <!-- CLI Input Line -->
+              <form id="cli-terminal-form" class="p-3 bg-[#0a0d14] border-t border-white/10 flex items-center gap-2">
+                <span class="text-emerald-400 font-mono text-xs font-semibold shrink-0">gugan@anti-gravity:~$</span>
+                <input id="cli-terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type 'help', 'whoami', 'skills', 'scan 192.168.1.1', or 'contact'..." class="cli-input-field w-full text-xs">
+                <button type="submit" class="cyber-btn cyber-btn-outline !py-1 !px-2.5 text-[11px] shrink-0">
+                  EXEC
+                </button>
+              </form>
+            </div>
+
+            <!-- Quick Action Shortcut Pills -->
+            <div class="flex flex-wrap items-center gap-2 mt-3 font-mono text-[11px]">
+              <span class="text-gray-500">QUICK EXEC:</span>
+              <button onclick="document.getElementById('cli-terminal-input').value='whoami'; document.getElementById('cli-terminal-form').dispatchEvent(new Event('submit'));" class="px-2 py-1 rounded bg-white/5 border border-white/10 text-gray-300 hover:text-emerald-glow hover:border-emerald-glow">
+                whoami
+              </button>
+              <button onclick="document.getElementById('cli-terminal-input').value='skills'; document.getElementById('cli-terminal-form').dispatchEvent(new Event('submit'));" class="px-2 py-1 rounded bg-white/5 border border-white/10 text-gray-300 hover:text-emerald-glow hover:border-emerald-glow">
+                skills
+              </button>
+              <button onclick="document.getElementById('cli-terminal-input').value='scan 192.168.1.1'; document.getElementById('cli-terminal-form').dispatchEvent(new Event('submit'));" class="px-2 py-1 rounded bg-white/5 border border-white/10 text-gray-300 hover:text-cyan-glow hover:border-cyan-glow">
+                scan
+              </button>
+              <button onclick="document.getElementById('cli-terminal-input').value='contact'; document.getElementById('cli-terminal-form').dispatchEvent(new Event('submit'));" class="px-2 py-1 rounded bg-white/5 border border-white/10 text-gray-300 hover:text-amber-glow hover:border-amber-glow">
+                contact
+              </button>
+              <button onclick="document.getElementById('cli-terminal-input').value='download-resume'; document.getElementById('cli-terminal-form').dispatchEvent(new Event('submit'));" class="px-2 py-1 rounded bg-white/5 border border-white/10 text-gray-300 hover:text-emerald-glow hover:border-emerald-glow">
+                download-resume
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Official Declaration Card (from resume) -->
+        <div class="mt-16 glass-cyber p-6 rounded-lg border border-white/10 text-center max-w-3xl mx-auto">
+          <div class="font-mono text-xs text-gray-400 uppercase tracking-widest mb-1">OFFICIAL CANDIDATE DECLARATION</div>
+          <p class="font-body text-gray-300 text-sm italic">
+            "I hereby declare that the above information is true to the best of my knowledge and belief."
+          </p>
+          <div class="font-display font-bold text-emerald-glow text-base mt-2">
+            — Gugan M, Chennai, Tamil Nadu, India
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       Footer
+       ========================================================================= -->
+  <footer class="border-t border-white/5 bg-obsidian-subtle/80 py-8 px-4 md:px-8 relative z-20">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500">
+      <div class="flex items-center gap-3">
+        <span class="text-emerald-glow font-bold">GUGAN M</span>
+        <span>•</span>
+        <span>CYBER SECURITY ARCHITECT &amp; PENETRATION TESTER</span>
+        <span>•</span>
+        <span>CHENNAI</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span>© 2026 GUGAN M. ALL ZERO-TRUST POLICIES ENFORCED.</span>
+        <a href="#" class="text-gray-400 hover:text-emerald-glow transition-colors">
+          [TOP ↑]
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       Full ATS Printable Resume Modal
+       ========================================================================= -->
+  <div id="resume-modal" class="modal-overlay">
+    <div class="modal-container">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-[#0a0d14] border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="file-text" class="w-5 h-5 text-emerald-glow"></i>
+          <div>
+            <div class="font-display font-bold text-base text-white">GUGAN M — OFFICIAL CURRICULUM VITAE</div>
+            <div class="font-mono text-xs text-gray-400">ATS-Optimized Security Profile • S.A. Engineering College</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="print-resume-btn" class="cyber-btn cyber-btn-emerald text-xs !py-1.5 !px-3">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+            <span>PRINT / SAVE PDF</span>
+          </button>
+          <button class="close-resume-btn text-gray-400 hover:text-white p-1">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body (Printable Resume Content) -->
+      <div class="p-6 md:p-8 overflow-y-auto bg-[#0d1017] text-gray-200 font-body text-sm space-y-6">
+        
+        <!-- Header Profile -->
+        <div class="border-b border-white/10 pb-4 text-center md:text-left">
+          <h1 class="font-display font-extrabold text-3xl text-white">GUGAN M</h1>
+          <div class="font-mono text-xs text-gray-400 mt-1 flex flex-wrap gap-2 md:gap-4 justify-center md:justify-start">
+            <span>Chennai, Tamil Nadu</span>
+            <span>|</span>
+            <span>+91 8610228091</span>
+            <span>|</span>
+            <a href="mailto:guganmurugan77@gmail.com" class="text-emerald-glow underline">guganmurugan77@gmail.com</a>
+            <span>|</span>
+            <a href="https://www.linkedin.com/in/gugan-murugan-727658337" target="_blank" class="text-cyan-glow underline">linkedin.com/in/gugan-murugan-727658337</a>
+          </div>
+        </div>
+
+        <!-- Career Objective -->
+        <div>
+          <h2 class="font-mono font-bold text-xs uppercase text-emerald-glow tracking-wider border-b border-white/10 pb-1 mb-2">
+            CAREER OBJECTIVE
+          </h2>
+          <p class="text-gray-300 leading-relaxed text-xs md:text-sm">
+            Motivated and enthusiastic Cyber Security student seeking an internship opportunity to enhance technical knowledge and gain practical experience in cybersecurity, networking, and programming while contributing effectively to organizational goals.
+          </p>
+        </div>
+
+        <!-- Education -->
+        <div>
+          <h2 class="font-mono font-bold text-xs uppercase text-emerald-glow tracking-wider border-b border-white/10 pb-1 mb-2">
+            EDUCATION
+          </h2>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs md:text-sm">
+            <div>
+              <div class="font-bold text-white">S.A. Engineering College, Chennai</div>
+              <div class="text-gray-300">B.E. Computer Science and Engineering – Cyber Security</div>
+            </div>
+            <div class="text-left sm:text-right font-mono text-xs text-gray-400 mt-1 sm:mt-0">
+              <div>(2024 – Present)</div>
+              <div class="text-emerald-glow font-bold">CGPA: 8.0 (Up to 3rd Semester)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Skills Table -->
+        <div>
+          <h2 class="font-mono font-bold text-xs uppercase text-emerald-glow tracking-wider border-b border-white/10 pb-1 mb-2">
+            TECHNICAL SKILLS
+          </h2>
+          <div class="border border-white/10 rounded overflow-hidden font-mono text-xs">
+            <div class="grid grid-cols-3 border-b border-white/10 bg-[#121622] p-2">
+              <span class="text-gray-400 font-bold">Category</span>
+              <span class="col-span-2 text-gray-400 font-bold">Technologies &amp; Competencies</span>
+            </div>
+            <div class="grid grid-cols-3 border-b border-white/5 p-2">
+              <span class="text-cyan-glow">Programming</span>
+              <span class="col-span-2 text-white">C (Basics), Python, Java</span>
+            </div>
+            <div class="grid grid-cols-3 border-b border-white/5 p-2 bg-[#0e111a]">
+              <span class="text-cyan-glow">Database</span>
+              <span class="col-span-2 text-white">SQL</span>
+            </div>
+            <div class="grid grid-cols-3 border-b border-white/5 p-2">
+              <span class="text-cyan-glow">Cyber Security</span>
+              <span class="col-span-2 text-white">Cyber Security Fundamentals, Vulnerability Assessment</span>
+            </div>
+            <div class="grid grid-cols-3 border-b border-white/5 p-2 bg-[#0e111a]">
+              <span class="text-cyan-glow">Networking</span>
+              <span class="col-span-2 text-white">Networking Concepts (TCP/IP, OSI, Subnetting)</span>
+            </div>
+            <div class="grid grid-cols-3 p-2">
+              <span class="text-cyan-glow">Tools</span>
+              <span class="col-span-2 text-white">Kali Linux, Nmap, Wireshark, Metasploit</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic Project -->
+        <div>
+          <h2 class="font-mono font-bold text-xs uppercase text-emerald-glow tracking-wider border-b border-white/10 pb-1 mb-2">
+            ACADEMIC PROJECT
+          </h2>
+          <div class="space-y-1">
+            <div class="font-bold text-white text-sm">Basic Network Security Analysis</div>
+            <ul class="list-disc list-inside text-xs md:text-sm text-gray-300 space-y-1 pl-1">
+              <li>Performed basic vulnerability assessment and network analysis using Kali Linux tools.</li>
+              <li>Explored concepts such as scanning, system security, and network monitoring.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Areas of Interest -->
+        <div>
+          <h2 class="font-mono font-bold text-xs uppercase text-emerald-glow tracking-wider border-b border-white/10 pb-1 mb-2">
+            AREAS OF INTEREST
+          </h2>
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <span class="cyber-badge badge-cyan">Cyber Security</span>
+            <span class="cyber-badge badge-emerald">Ethical Hacking</span>
+            <span class="cyber-badge badge-cyan">Networking</span>
+            <span class="cyber-badge badge-muted">Database Management Systems</span>
+            <span class="cyber-badge badge-emerald">Penetration Testing</span>
+            <span class="cyber-badge badge-amber">SOC Analyst</span>
+          </div>
+        </div>
+
+        <!-- Strengths & Languages -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div>
+            <h2 class="font-mono font-bold uppercase text-emerald-glow tracking-wider border-b border-white/10 pb-1 mb-2">
+              CORE STRENGTHS
+            </h2>
+            <p class="text-gray-300 leading-relaxed">
+              Quick learner • Teamwork and communication • Problem-solving ability • Adaptability
+            </p>
+          </div>
+          <div>
+            <h2 class="font-mono font-bold uppercase text-emerald-glow tracking-wider border-b border-white/10 pb-1 mb-2">
+              LANGUAGES KNOWN
+            </h2>
+            <p class="text-gray-300 leading-relaxed font-mono">
+              Tamil, English
+            </p>
+          </div>
+        </div>
+
+        <!-- Declaration -->
+        <div class="border-t border-white/10 pt-3 text-xs text-gray-400 italic">
+          "I hereby declare that the above information is true to the best of my knowledge and belief." — Gugan M
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Lucide Script Initialization -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+  </script>
+
+  <!-- Modular Scripts -->
+  <script src="js/matrix-warp.js"></script>
+  <script src="js/audio-synth.js"></script>
+  <script src="js/project-slider.js"></script>
+  <script src="js/terminal-engine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

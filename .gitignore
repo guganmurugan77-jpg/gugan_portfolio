@@ -1,0 +1,10 @@
+# System & Editor files
+.DS_Store
+Thumbs.db
+*.log
+
+# Node & Build artifacts (if any added later)
+node_modules/
+dist/
+.vscode/
+.idea/
